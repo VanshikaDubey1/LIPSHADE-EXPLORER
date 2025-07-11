@@ -24,7 +24,7 @@ export default function Header() {
         <div className="mr-auto flex items-center">
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <LipstickIcon className="h-8 w-8 text-primary" />
-            <span className="font-bold uppercase tracking-wider">LipShade Explorer</span>
+            <span className="font-bold uppercase tracking-wider">ShadeMatch</span>
           </Link>
         </div>
         
