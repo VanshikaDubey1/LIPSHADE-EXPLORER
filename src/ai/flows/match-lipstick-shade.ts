@@ -10,6 +10,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { findSimilarLipsticks, LipstickProduct } from '@/services/lipstick-service';
 
 const MatchLipstickShadeInputSchema = z.object({
   colorHex: z
@@ -32,23 +33,46 @@ export async function matchLipstickShade(input: MatchLipstickShadeInput): Promis
 
 const prompt = ai.definePrompt({
   name: 'matchLipstickShadePrompt',
-  input: {schema: MatchLipstickShadeInputSchema},
+  input: {
+    schema: z.object({
+      colorHex: z.string(),
+      similarProducts: z.array(z.object({
+        brand: z.string(),
+        productName: z.string(),
+        hex: z.string(),
+        finish: z.string(),
+        buyLink: z.string().url(),
+      })),
+    }),
+  },
   output: {schema: MatchLipstickShadeOutputSchema},
-  prompt: `You are a virtual beauty advisor with expert knowledge of a wide range of lipstick products from various brands.
+  prompt: `You are a virtual beauty advisor with expert knowledge of lipstick products.
 
-Your task is to find the best commercially available lipstick product that matches a given hex color code.
+Your task is to find the best commercially available lipstick product that matches a given hex color code, based on a provided list of similar products.
 
-You must return the following details for the best matching product:
-1.  **Brand:** The brand name (e.g., "Fenty Beauty", "MAC Cosmetics").
-2.  **Product Name:** The specific name of the lipstick line and shade (e.g., "Stunna Lip Paint Longwear Fluid Lip Color in Uncensored").
-3.  **Finish:** The lipstick's finish (e.g., "matte", "satin", "glossy", "creme").
-4.  **Buy Link:** A valid, direct URL to a reputable retailer where the product can be purchased.
+You must return the following details for the BEST matching product from the list:
+1.  **Brand:** The brand name.
+2.  **Product Name:** The specific name of the lipstick line and shade.
+3.  **Finish:** The lipstick's finish.
+4.  **Buy Link:** A valid, direct URL to a reputable retailer.
 
 Here is the color to match:
-Color Hex: {{{colorHex}}}
+Target Color Hex: {{{colorHex}}}
 
-Analyze the color and search your knowledge base for the closest match. Prioritize popular and well-regarded products. Ensure all fields in the output are filled correctly.
-If you cannot find a reasonable match, you may use a popular, universally flattering shade like "Pillow Talk" by Charlotte Tilbury as a fallback, but adjust the product name to indicate it's a suggestion (e.g., "Charlotte Tilbury Matte Revolution Lipstick in Pillow Talk (Suggested Alternative)").`,
+Here is a list of potential products. Choose the one that is the closest color match to the target hex code.
+
+Available Products:
+{{#each similarProducts}}
+- Brand: {{brand}}
+- Product Name: {{productName}}
+- Hex: {{hex}}
+- Finish: {{finish}}
+- Buy Link: {{buyLink}}
+---
+{{/each}}
+
+Analyze the target color and the hex codes of the available products, then select the best match and provide its details in the required output format. Do not invent products or details.
+`,
 });
 
 const matchLipstickShadeFlow = ai.defineFlow(
@@ -57,8 +81,25 @@ const matchLipstickShadeFlow = ai.defineFlow(
     inputSchema: MatchLipstickShadeInputSchema,
     outputSchema: MatchLipstickShadeOutputSchema,
   },
-  async input => {
-    const {output} = await prompt(input);
+  async (input) => {
+    // Find lipstick products with colors similar to the input hex code
+    const similarProducts = await findSimilarLipsticks(input.colorHex);
+
+    if (similarProducts.length === 0) {
+      // Fallback if no products are found, though our service should always return something
+      return {
+        brand: 'Charlotte Tilbury',
+        productName: 'Matte Revolution Lipstick in Pillow Talk (Suggested)',
+        finish: 'Matte',
+        buyLink: 'https://www.charlottetilbury.com/us/product/matte-revolution-lipstick-pillow-talk',
+      };
+    }
+
+    const { output } = await prompt({
+      colorHex: input.colorHex,
+      similarProducts: similarProducts,
+    });
+    
     return output!;
   }
 );

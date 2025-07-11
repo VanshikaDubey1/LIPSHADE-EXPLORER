@@ -3,3 +3,4 @@ config();
 
 import '@/ai/flows/match-lipstick-shade.ts';
 import '@/ai/flows/detect-lipstick-color.ts';
+import '@/services/lipstick-service.ts';
