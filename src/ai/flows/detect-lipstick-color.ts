@@ -15,7 +15,7 @@ const DetectLipstickColorInputSchema = z.object({
   photoDataUri: z
     .string()
     .describe(
-      "A photo of a lipstick shade, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+      "A photo of a lipstick shade, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'"
     ),
 });
 export type DetectLipstickColorInput = z.infer<typeof DetectLipstickColorInputSchema>;
@@ -39,13 +39,15 @@ const prompt = ai.definePrompt({
   output: {schema: DetectLipstickColorOutputSchema},
   prompt: `You are an AI assistant that specializes in identifying colors from images.
 
-  Your task is to analyze the provided image, which contains a lipstick swatch.
-  Focus exclusively on the lipstick color itself. Ignore any background elements, lighting variations, or other objects in the image.
-  Identify the single, dominant hex color code of the lipstick shade.
+Your task is to analyze the provided image, which contains a lipstick swatch.
+Focus exclusively on the lipstick color itself. Ignore any background elements, lighting variations, or other objects in the image.
+You must find the dominant hex color code of the lipstick shade.
 
-  Return ONLY the hex code as a string, for example: #D35D6E.
-  
-  Image: {{media url=photoDataUri}}`,
+Your output must be only the hex code string. For example: #D35D6E.
+Do not include any other text, explanations, or markdown formatting.
+If you cannot determine a color, you must return a default hex code of #000000.
+
+Image: {{media url=photoDataUri}}`,
 });
 
 const detectLipstickColorFlow = ai.defineFlow(
