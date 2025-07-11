@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 type ImageUploaderProps = {
   onUpload: (file: File) => void;
   isLoading: boolean;
+  onUseCamera: () => void;
 };
 
 // SVG for the smear effect
@@ -25,7 +26,7 @@ const SmearSVG = () => (
 );
 
 
-export default function ImageUploader({ onUpload, isLoading }: ImageUploaderProps) {
+export default function ImageUploader({ onUpload, isLoading, onUseCamera }: ImageUploaderProps) {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
@@ -133,7 +134,7 @@ export default function ImageUploader({ onUpload, isLoading }: ImageUploaderProp
           variant="outline"
           size="lg"
           className="mt-6 w-full max-w-sm mx-auto"
-          onClick={() => toast({ title: "Coming Soon!", description: "The camera feature is under development."})}
+          onClick={onUseCamera}
           disabled={isLoading}
       >
           <Camera className="mr-2 h-5 w-5" />

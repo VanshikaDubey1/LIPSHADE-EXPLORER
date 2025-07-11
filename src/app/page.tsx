@@ -11,7 +11,9 @@ import HeroSection from '@/components/page/HeroSection';
 import ImageUploader from '@/components/page/ImageUploader';
 import ResultCard from '@/components/page/ResultCard';
 import LoadingSpinner from '@/components/page/LoadingSpinner';
+import CameraView from '@/components/page/CameraView';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Upload } from 'lucide-react';
 
 type ResultState = {
@@ -23,6 +25,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<ResultState | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
   const { toast } = useToast();
   const uploadRef = useRef<HTMLDivElement>(null);
 
@@ -39,6 +42,14 @@ export default function Home() {
   };
 
   const handleUpload = async (file: File) => {
+    if (file.size > 4 * 1024 * 1024) { // 4MB limit
+       toast({
+        variant: "destructive",
+        title: "Image too large",
+        description: "Please upload an image smaller than 4MB.",
+      });
+      return;
+    }
     setImagePreview(URL.createObjectURL(file));
     setIsLoading(true);
     setResult(null);
@@ -63,6 +74,11 @@ export default function Home() {
     } finally {
       setIsLoading(false);
     }
+  };
+  
+  const handleCapture = (file: File) => {
+    setIsCameraOpen(false);
+    handleUpload(file);
   };
 
   const handleReset = () => {
@@ -94,10 +110,21 @@ export default function Home() {
               />
             )}
             {!isLoading && !result && (
-              <ImageUploader onUpload={handleUpload} isLoading={isLoading} />
+              <ImageUploader 
+                onUpload={handleUpload} 
+                isLoading={isLoading}
+                onUseCamera={() => setIsCameraOpen(true)}
+              />
             )}
           </div>
         </div>
+
+        <Dialog open={isCameraOpen} onOpenChange={setIsCameraOpen}>
+          <DialogContent className="max-w-3xl p-0 border-0">
+             <CameraView onCapture={handleCapture} onCancel={() => setIsCameraOpen(false)} />
+          </DialogContent>
+        </Dialog>
+
       </main>
       <Footer />
       <Button
