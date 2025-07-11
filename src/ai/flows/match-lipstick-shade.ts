@@ -85,8 +85,8 @@ const matchLipstickShadeFlow = ai.defineFlow(
     // Find lipstick products with colors similar to the input hex code
     const similarProducts = await findSimilarLipsticks(input.colorHex);
 
+    // If no similar products are found, return a default suggestion.
     if (similarProducts.length === 0) {
-      // Fallback if no products are found, though our service should always return something
       return {
         brand: 'Charlotte Tilbury',
         productName: 'Matte Revolution Lipstick in Pillow Talk (Suggested)',
@@ -95,16 +95,22 @@ const matchLipstickShadeFlow = ai.defineFlow(
       };
     }
 
-    const { output } = await prompt({
-      colorHex: input.colorHex,
-      similarProducts: similarProducts,
-    });
-    
-    // Additional fallback in case the model fails to produce valid output
-    if (!output?.brand) {
-      return similarProducts[0];
+    try {
+      const { output } = await prompt({
+        colorHex: input.colorHex,
+        similarProducts: similarProducts,
+      });
+      
+      // If the model output is invalid or empty, return the closest match from the database.
+      if (!output?.brand) {
+        return similarProducts[0];
+      }
+      
+      return output;
+    } catch (error) {
+       console.error("AI matching failed, returning the first similar product as a fallback.", error);
+       // In case of any error during the AI prompt call, return the top match.
+       return similarProducts[0];
     }
-    
-    return output;
   }
 );
