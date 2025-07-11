@@ -92,7 +92,7 @@ export default function ImageUploader({ onUpload, isLoading, onUseCamera }: Imag
       <div 
         className={cn(
           "group relative mt-8 flex flex-col items-center justify-center w-full h-64 rounded-2xl border-2 border-dashed border-border transition-all duration-300",
-          isDragging ? "border-primary bg-primary/10" : "bg-secondary/50"
+          isDragging ? "border-primary bg-primary/10 scale-105" : "bg-secondary/50"
         )}
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
@@ -101,7 +101,7 @@ export default function ImageUploader({ onUpload, isLoading, onUseCamera }: Imag
       >
         <SmearSVG />
         <div className="relative z-10 flex flex-col items-center justify-center p-8">
-            <UploadCloud className="w-16 h-16 text-primary/70 mb-4 transition-transform duration-300 group-hover:scale-110" />
+            <UploadCloud className="w-16 h-16 text-primary/70 mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:animate-pulse" />
             <p className="text-lg font-semibold text-foreground">
               Drag & drop your image here
             </p>
