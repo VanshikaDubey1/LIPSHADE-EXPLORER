@@ -37,10 +37,14 @@ const prompt = ai.definePrompt({
   name: 'detectLipstickColorPrompt',
   input: {schema: DetectLipstickColorInputSchema},
   output: {schema: DetectLipstickColorOutputSchema},
-  prompt: `You are an AI image analyzer specializing in color detection for lipstick shades.
+  prompt: `You are an AI assistant that specializes in identifying colors from images.
 
-  Analyze the provided image of a lipstick and identify the dominant color. Return the hex code of this color.
-  Do not provide any additional context or explanation.
+  Your task is to analyze the provided image, which contains a lipstick swatch.
+  Focus exclusively on the lipstick color itself. Ignore any background elements, lighting variations, or other objects in the image.
+  Identify the single, dominant hex color code of the lipstick shade.
+
+  Return ONLY the hex code as a string, for example: #D35D6E.
+  
   Image: {{media url=photoDataUri}}`,
 });
 
