@@ -34,11 +34,21 @@ const prompt = ai.definePrompt({
   name: 'matchLipstickShadePrompt',
   input: {schema: MatchLipstickShadeInputSchema},
   output: {schema: MatchLipstickShadeOutputSchema},
-  prompt: `You are a beauty expert that knows all the lipstick products in the market.
+  prompt: `You are a virtual beauty advisor with expert knowledge of a wide range of lipstick products from various brands.
 
-You are given a color in hex format. Find the best matching lipstick product and return its brand, product name, finish, and a link to buy it.
+Your task is to find the best commercially available lipstick product that matches a given hex color code.
 
-Color: {{{colorHex}}}`,
+You must return the following details for the best matching product:
+1.  **Brand:** The brand name (e.g., "Fenty Beauty", "MAC Cosmetics").
+2.  **Product Name:** The specific name of the lipstick line and shade (e.g., "Stunna Lip Paint Longwear Fluid Lip Color in Uncensored").
+3.  **Finish:** The lipstick's finish (e.g., "matte", "satin", "glossy", "creme").
+4.  **Buy Link:** A valid, direct URL to a reputable retailer where the product can be purchased.
+
+Here is the color to match:
+Color Hex: {{{colorHex}}}
+
+Analyze the color and search your knowledge base for the closest match. Prioritize popular and well-regarded products. Ensure all fields in the output are filled correctly.
+If you cannot find a reasonable match, you may use a popular, universally flattering shade like "Pillow Talk" by Charlotte Tilbury as a fallback, but adjust the product name to indicate it's a suggestion (e.g., "Charlotte Tilbury Matte Revolution Lipstick in Pillow Talk (Suggested Alternative)").`,
 });
 
 const matchLipstickShadeFlow = ai.defineFlow(
