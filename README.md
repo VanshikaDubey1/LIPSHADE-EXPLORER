@@ -2,7 +2,7 @@
 
 ShadeMatch is a modern web application that helps users discover their perfect lipstick shade. By uploading a photo or using their camera, users can get an instant AI-powered analysis of a lipstick color and receive a recommendation for a matching product from popular brands.
 
-![ShadeMatch App Screenshot](https://placehold.co/800x450.png?text=ShadeMatch+App)
+
 *A placeholder for your app's screenshot. Replace this with a real image of your running application!*
 
 ---
