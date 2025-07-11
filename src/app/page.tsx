@@ -13,7 +13,7 @@ import ResultCard from '@/components/page/ResultCard';
 import LoadingSpinner from '@/components/page/LoadingSpinner';
 import CameraView from '@/components/page/CameraView';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Upload } from 'lucide-react';
 
 type ResultState = {
@@ -121,6 +121,9 @@ export default function Home() {
 
         <Dialog open={isCameraOpen} onOpenChange={setIsCameraOpen}>
           <DialogContent className="max-w-3xl p-0 border-0">
+             <DialogHeader className="sr-only">
+              <DialogTitle>Use Your Camera</DialogTitle>
+             </DialogHeader>
              <CameraView onCapture={handleCapture} onCancel={() => setIsCameraOpen(false)} />
           </DialogContent>
         </Dialog>
