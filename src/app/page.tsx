@@ -4,6 +4,16 @@ import { useState, useRef } from 'react';
 import { useToast } from "@/hooks/use-toast";
 import type { MatchLipstickShadeOutput } from '@/ai/flows/match-lipstick-shade';
 import { getShadeMatch } from '@/app/actions';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Camera } from 'lucide-react';
+import Image from 'next/image';
 
 import Header from '@/components/page/Header';
 import Footer from '@/components/page/Footer';
@@ -11,13 +21,9 @@ import HeroSection from '@/components/page/HeroSection';
 import ImageUploader from '@/components/page/ImageUploader';
 import LoadingSpinner from '@/components/page/LoadingSpinner';
 import ResultCard from '@/components/page/ResultCard';
-
+import CameraView from '@/components/page/CameraView';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import Image from 'next/image';
-import { CheckCircle, Palette, Camera, Share2 } from 'lucide-react';
-
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 type ResultState = {
   detectedColor: string;
@@ -28,11 +34,11 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<ResultState | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
   const { toast } = useToast();
   const resultRef = useRef<HTMLDivElement>(null);
 
-
-  const handleUpload = async (file: File) => {
+  const processFile = async (file: File) => {
     if (file.size > 4 * 1024 * 1024) { // 4MB limit
        toast({
         variant: "destructive",
@@ -70,6 +76,15 @@ export default function Home() {
     } finally {
       setIsLoading(false);
     }
+  }
+  
+  const handleUpload = (file: File) => {
+    processFile(file);
+  };
+
+  const handleCapture = (file: File) => {
+    setIsCameraOpen(false);
+    processFile(file);
   };
 
   const handleReset = () => {
@@ -82,7 +97,16 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-1">
-        <HeroSection onUpload={handleUpload} />
+        <HeroSection onUpload={handleUpload} onCameraClick={() => setIsCameraOpen(true)} />
+        
+        <Dialog open={isCameraOpen} onOpenChange={setIsCameraOpen}>
+          <DialogContent className="max-w-3xl p-0 border-0">
+             <DialogHeader className="sr-only">
+                <DialogTitle>Camera View</DialogTitle>
+             </DialogHeader>
+             <CameraView onCapture={handleCapture} onCancel={() => setIsCameraOpen(false)} />
+          </DialogContent>
+        </Dialog>
 
         <div ref={resultRef} className="py-16 md:py-24 transition-all duration-500 container mx-auto px-4">
             {isLoading && <LoadingSpinner preview={imagePreview} />}
