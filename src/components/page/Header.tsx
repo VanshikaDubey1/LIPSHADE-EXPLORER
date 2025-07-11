@@ -10,8 +10,12 @@ import LipstickIcon from '@/components/page/LipstickIcon';
 
 const NavLinks = () => (
   <>
-    <Button variant="outline" size="sm">Log in</Button>
-    <Button size="sm">Get started</Button>
+    <Button asChild variant="outline" size="sm">
+      <Link href="/login">Log in</Link>
+    </Button>
+    <Button asChild size="sm">
+      <Link href="/signup">Get started</Link>
+    </Button>
   </>
 );
 
@@ -46,8 +50,12 @@ export default function Header() {
                     <LipstickIcon className="h-8 w-8 text-primary" />
                  </Link>
                 <nav className="flex flex-col space-y-4">
-                  <Button variant="outline" onClick={() => setIsOpen(false)}>Log in</Button>
-                  <Button onClick={() => setIsOpen(false)}>Get started</Button>
+                  <Button asChild variant="outline" onClick={() => setIsOpen(false)}>
+                    <Link href="/login">Log in</Link>
+                  </Button>
+                  <Button asChild onClick={() => setIsOpen(false)}>
+                     <Link href="/signup">Get started</Link>
+                  </Button>
                 </nav>
               </div>
             </SheetContent>
