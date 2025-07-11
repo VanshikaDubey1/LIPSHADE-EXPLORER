@@ -10,7 +10,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import { findSimilarLipsticks, LipstickProduct } from '@/services/lipstick-service';
+import { findSimilarLipsticks } from '@/services/lipstick-service';
 
 const MatchLipstickShadeInputSchema = z.object({
   colorHex: z
@@ -100,6 +100,11 @@ const matchLipstickShadeFlow = ai.defineFlow(
       similarProducts: similarProducts,
     });
     
-    return output!;
+    // Additional fallback in case the model fails to produce valid output
+    if (!output?.brand) {
+      return similarProducts[0];
+    }
+    
+    return output;
   }
 );
