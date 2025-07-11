@@ -57,14 +57,27 @@
     @apply bg-background text-foreground;
   }
   .gradient-bg {
-    background: radial-gradient(circle at top left, hsl(347, 83%, 95%), transparent 40%),
-                radial-gradient(circle at bottom right, hsl(0, 0%, 97%), transparent 50%),
-                hsl(var(--background));
+    background: linear-gradient(-45deg, hsl(347, 83%, 95%), hsl(0, 0%, 97%), hsl(347, 83%, 90%), hsl(0, 0%, 100%));
+    background-size: 400% 400%;
+    animation: gradient-animation 15s ease infinite;
   }
+
   .dark .gradient-bg {
-     background: radial-gradient(circle at top left, hsl(347, 83%, 10%), transparent 40%),
-                radial-gradient(circle at bottom right, hsl(224, 71%, 8%), transparent 50%),
-                hsl(var(--background));
+    background: linear-gradient(-45deg, hsl(347, 83%, 10%), hsl(224, 71%, 8%), hsl(347, 83%, 15%), hsl(224, 71%, 5%));
+    background-size: 400% 400%;
+    animation: gradient-animation 15s ease infinite;
+  }
+
+  @keyframes gradient-animation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
   }
 }
 
