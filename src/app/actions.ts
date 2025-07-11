@@ -42,3 +42,36 @@ export async function getShadeMatch(formData: FormData): Promise<{ detectedColor
     return { error: 'An unexpected error occurred. Please try again later.' };
   }
 }
+
+
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData,
+) {
+  try {
+    // This is where you would add your actual authentication logic.
+    // For demonstration, we'll simulate a network delay and check mock credentials.
+    console.log('Attempting to authenticate user...');
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    const email = formData.get('email');
+    const password = formData.get('password');
+
+    // MOCK CREDENTIALS
+    const MOCK_EMAIL = 'user@example.com';
+    const MOCK_PASSWORD = 'password123';
+
+    if (email === MOCK_EMAIL && password === MOCK_PASSWORD) {
+      console.log('Authentication successful!');
+      // In a real app, you would set a session cookie here and redirect.
+      // For now, we'll just log success and return nothing on success.
+      return; 
+    }
+
+    console.log('Invalid credentials.');
+    return 'Invalid email or password. Please try again.';
+  } catch (error) {
+    console.error('Authentication error:', error);
+    return 'Something went wrong during authentication.';
+  }
+}
