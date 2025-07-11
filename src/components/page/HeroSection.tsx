@@ -1,31 +1,22 @@
 import { Button } from '@/components/ui/button';
 import LipstickIcon from '@/components/page/LipstickIcon';
-import TypewriterTitle from '@/components/page/TypewriterTitle';
+import ImageUploader from '@/components/page/ImageUploader';
 
 type HeroSectionProps = {
-  onGetStarted: () => void;
+  onUpload: (file: File) => void;
 };
 
-export default function HeroSection({ onGetStarted }: HeroSectionProps) {
+export default function HeroSection({ onUpload }: HeroSectionProps) {
   return (
-    <section className="relative w-full py-24 md:py-32 lg:py-40 overflow-hidden gradient-bg">
+    <section className="relative w-full py-24 md:py-32 lg:py-40 overflow-hidden">
       <div className="container mx-auto px-4 text-center">
-        <div className="relative z-10">
-          <div className="flex justify-center mb-6">
-            <LipstickIcon />
-          </div>
-          <TypewriterTitle />
-          <p className="max-w-2xl mx-auto mt-6 text-lg md:text-xl text-foreground/70">
-            Snap or upload a photo of any lipstick shade to instantly discover your perfect product match.
-          </p>
-          <div className="mt-10">
-            <Button
-              size="lg"
-              className="glow-on-hover text-base font-bold tracking-wide uppercase px-10 py-7 rounded-full shadow-lg shadow-primary/20"
-              onClick={onGetStarted}
-            >
-              Find Your Match
-            </Button>
+        <div className="relative z-10 flex flex-col items-center">
+          <LipstickIcon className="h-20 w-20 text-primary mb-6" />
+          <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl max-w-2xl">
+            Discover your perfect lipstick shade
+          </h1>
+          <div className="mt-10 w-full max-w-md">
+             <ImageUploader onUpload={onUpload} />
           </div>
         </div>
       </div>

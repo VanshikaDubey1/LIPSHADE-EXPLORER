@@ -4,48 +4,48 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 224 71.4% 4.1%;
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
-    --primary: 346.8 77.2% 49.8%;
-    --primary-foreground: 355.7 100% 97.3%;
-    --secondary: 220 13% 91%;
-    --secondary-foreground: 220 14.3% 34.3%;
-    --muted: 220 13% 91%;
-    --muted-foreground: 220 8.9% 46.1%;
-    --accent: 346.8 77.2% 49.8%;
-    --accent-foreground: 355.7 100% 97.3%;
-    --destructive: 0 84.2% 60.2%;
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 333.3 83.2% 53.1%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 220 13% 89%;
-    --input: 220 13% 89%;
-    --ring: 346.8 77.2% 49.8%;
-    --radius: 0.8rem;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 333.3 83.2% 53.1%;
+    --radius: 0.5rem;
   }
 
   .dark {
-    --background: 224 71.4% 4.1%;
-    --foreground: 210 20% 98%;
-    --card: 224 71.4% 4.1%;
-    --card-foreground: 210 20% 98%;
-    --popover: 224 71.4% 4.1%;
-    --popover-foreground: 210 20% 98%;
-    --primary: 346.8 77.2% 49.8%;
-    --primary-foreground: 355.7 100% 97.3%;
-    --secondary: 215 27.9% 16.9%;
-    --secondary-foreground: 210 20% 98%;
-    --muted: 215 27.9% 16.9%;
-    --muted-foreground: 217.9 10.6% 64.9%;
-    --accent: 346.8 77.2% 49.8%;
-    --accent-foreground: 355.7 100% 97.3%;
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 333.3 83.2% 53.1%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 215 27.9% 16.9%;
-    --input: 215 27.9% 16.9%;
-    --ring: 346.8 77.2% 49.8%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 333.3 83.2% 53.1%;
   }
 }
 
@@ -55,69 +55,5 @@
   }
   body {
     @apply bg-background text-foreground;
-  }
-  .gradient-bg {
-    background: linear-gradient(-45deg, hsl(347, 83%, 95%), hsl(0, 0%, 97%), hsl(347, 83%, 90%), hsl(0, 0%, 100%));
-    background-size: 400% 400%;
-    animation: gradient-animation 15s ease infinite;
-  }
-
-  .dark .gradient-bg {
-    background: linear-gradient(-45deg, hsl(347, 83%, 10%), hsl(224, 71%, 8%), hsl(347, 83%, 15%), hsl(224, 71%, 5%));
-    background-size: 400% 400%;
-    animation: gradient-animation 15s ease infinite;
-  }
-
-  @keyframes gradient-animation {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-}
-
-@layer utilities {
-  .typewriter {
-    overflow: hidden;
-    border-right: .15em solid hsl(var(--primary));
-    white-space: nowrap;
-    margin: 0 auto;
-    animation:
-      typing 2.5s steps(32, end),
-      blink-caret .75s step-end infinite;
-  }
-
-  @keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
-  }
-
-  @keyframes blink-caret {
-    from, to { border-color: transparent }
-    50% { border-color: hsl(var(--primary)); }
-  }
-
-  .glow-on-hover {
-    @apply transition-all duration-300;
-  }
-
-  .glow-on-hover:hover {
-    box-shadow: 0 0 20px hsl(var(--primary) / 0.4), 0 0 8px hsl(var(--primary) / 0.6);
-    transform: translateY(-2px);
-  }
-
-  .pulse-spin {
-    animation: pulse-spin 8s ease-in-out infinite;
-  }
-
-  @keyframes pulse-spin {
-    0% { transform: scale(1) rotate(0deg); }
-    50% { transform: scale(1.05) rotate(3deg); }
-    100% { transform: scale(1) rotate(0deg); }
   }
 }

@@ -21,9 +21,9 @@ export default function LoadingSpinner({ preview }: LoadingSpinnerProps) {
         </div>
       )}
       <div className="relative">
-        <LipstickIcon />
+         <LipstickIcon className="h-20 w-20 text-primary animate-spin" />
       </div>
-      <h2 className="mt-4 font-headline text-3xl font-bold tracking-tight sm:text-4xl text-primary">
+      <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl text-primary">
         Finding your match...
       </h2>
       <p className="mt-2 text-lg text-muted-foreground">
