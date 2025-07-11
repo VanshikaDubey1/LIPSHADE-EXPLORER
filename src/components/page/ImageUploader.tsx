@@ -17,7 +17,7 @@ const SmearSVG = () => (
     <svg className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-10 transition-opacity duration-500" viewBox="0 0 200 100" preserveAspectRatio="none">
         <defs>
             <radialGradient id="smearGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-                <stop offset="0%" style={{stopColor: 'hsl(var(--primary))', stopOpacity: 0.5}} />
+                <stop offset="0%" style={{stopColor: 'hsl(var(--primary))', stopOpacity: 0.3}} />
                 <stop offset="100%" style={{stopColor: 'hsl(var(--primary))', stopOpacity: 0}} />
             </radialGradient>
         </defs>
@@ -83,16 +83,16 @@ export default function ImageUploader({ onUpload, isLoading, onUseCamera }: Imag
   return (
     <div className="max-w-2xl mx-auto text-center">
       <h2 className="font-headline text-3xl font-bold tracking-tight sm:text-4xl">
-        Find Your Shade
+        Discover Your Shade
       </h2>
       <p className="mt-4 text-lg text-muted-foreground">
-        Upload a photo of lips wearing lipstick, or drag & drop an image.
+        Upload a photo, or use your camera. We'll analyze the lips to find a match.
       </p>
       
       <div 
         className={cn(
           "group relative mt-8 flex flex-col items-center justify-center w-full h-64 rounded-2xl border-2 border-dashed border-border transition-all duration-300",
-          isDragging ? "border-primary bg-primary/10 scale-105" : "bg-secondary/50"
+          isDragging ? "border-primary bg-primary/5 scale-105" : "bg-secondary/20"
         )}
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
@@ -109,7 +109,7 @@ export default function ImageUploader({ onUpload, isLoading, onUseCamera }: Imag
             <Button
               onClick={handleButtonClick}
               disabled={isLoading}
-              className="mt-4 glow-on-hover"
+              className="mt-4 glow-on-hover font-semibold"
             >
               Choose a file
             </Button>
@@ -126,14 +126,14 @@ export default function ImageUploader({ onUpload, isLoading, onUseCamera }: Imag
       
       <div className="mt-6 flex items-center justify-center gap-4">
           <div className="flex-1 border-t"></div>
-          <span className="text-muted-foreground">OR</span>
+          <span className="text-muted-foreground font-semibold">OR</span>
           <div className="flex-1 border-t"></div>
       </div>
 
       <Button
           variant="outline"
           size="lg"
-          className="mt-6 w-full max-w-sm mx-auto"
+          className="mt-6 w-full max-w-sm mx-auto font-semibold"
           onClick={onUseCamera}
           disabled={isLoading}
       >

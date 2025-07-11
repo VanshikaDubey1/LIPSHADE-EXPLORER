@@ -22,16 +22,16 @@ export default function ResultCard({ result, imagePreview, onReset }: ResultCard
   return (
     <div className="max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-12 duration-500">
       <div className="text-center mb-12">
-        <h2 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl">We Found Your Match!</h2>
+        <h2 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl text-primary">We Found Your Match!</h2>
         <p className="mt-4 text-lg text-muted-foreground">
           Based on your image, here's the lipstick we recommend.
         </p>
       </div>
 
       <div className="grid md:grid-cols-2 gap-8 items-start">
-        <Card className="overflow-hidden shadow-lg w-full">
+        <Card className="overflow-hidden shadow-xl shadow-slate-200/50 dark:shadow-black/20 w-full border-slate-200/60">
           <CardHeader>
-            <CardTitle className="font-headline">Your Image & Color</CardTitle>
+            <CardTitle className="font-headline text-2xl">Your Image & Color</CardTitle>
             <CardDescription>The shade we detected from your upload.</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col items-center gap-6">
@@ -61,9 +61,9 @@ export default function ResultCard({ result, imagePreview, onReset }: ResultCard
           </CardContent>
         </Card>
 
-        <Card className="overflow-hidden shadow-lg w-full bg-secondary/30">
+        <Card className="overflow-hidden shadow-xl shadow-slate-200/50 dark:shadow-black/20 w-full bg-secondary/30 border-slate-200/60">
           <CardHeader>
-            <CardTitle className="font-headline">{match.productName}</CardTitle>
+            <CardTitle className="font-headline text-2xl">{match.productName}</CardTitle>
             <CardDescription>By {match.brand}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -77,7 +77,7 @@ export default function ResultCard({ result, imagePreview, onReset }: ResultCard
                 ></div>
           </CardContent>
           <CardFooter className="flex-col items-stretch gap-3 pt-6">
-            <Button asChild size="lg" className="glow-on-hover">
+            <Button asChild size="lg" className="glow-on-hover font-bold tracking-wide uppercase">
               <Link href={match.buyLink} target="_blank" rel="noopener noreferrer">
                 <ShoppingCart className="mr-2 h-5 w-5" /> Buy Now
               </Link>

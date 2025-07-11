@@ -9,7 +9,7 @@ export default function LoadingSpinner({ preview }: LoadingSpinnerProps) {
   return (
     <div className="flex flex-col items-center justify-center text-center animate-in fade-in duration-500">
       {preview && (
-        <div className="mb-8 w-48 h-48 rounded-2xl overflow-hidden border-4 border-white shadow-lg">
+        <div className="mb-8 w-48 h-48 rounded-2xl overflow-hidden border-4 border-white shadow-xl">
           <Image
             src={preview}
             alt="Uploading shade"
@@ -23,7 +23,7 @@ export default function LoadingSpinner({ preview }: LoadingSpinnerProps) {
       <div className="relative">
         <LipstickIcon />
       </div>
-      <h2 className="mt-4 font-headline text-3xl font-bold tracking-tight sm:text-4xl">
+      <h2 className="mt-4 font-headline text-3xl font-bold tracking-tight sm:text-4xl text-primary">
         Finding your match...
       </h2>
       <p className="mt-2 text-lg text-muted-foreground">
