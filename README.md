@@ -4,7 +4,23 @@ ShadeMatch is a modern web application that helps users discover their perfect l
 
 
 
-![🖼️ Lipshade ](./lipshade1.png)
+<p align="center">
+  <img src="./shadematch.png" alt="Lipshade UI Preview" width="400"/>
+</p>
+
+
+
+<p align="center">
+  <img src="./lipshade1.png" alt="Lipshade process" width="400"/>
+</p>
+
+
+ 
+
+<p align="center">
+  <img src="./lipshade2.png" alt="Lipshade result" width="400"/>
+</p>
+
 
 ---
 
