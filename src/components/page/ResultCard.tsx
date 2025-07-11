@@ -20,23 +20,23 @@ export default function ResultCard({ result, imagePreview, onReset }: ResultCard
   const { detectedColor, match } = result;
 
   return (
-    <div className="max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-12 duration-500">
+    <div className="max-w-4xl mx-auto animate-in fade-in-0 slide-in-from-bottom-16 duration-700 ease-out">
       <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold tracking-tight sm:text-5xl text-primary">We Found Your Match!</h2>
-        <p className="mt-4 text-lg text-muted-foreground">
+        <h2 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl text-accent">We Found Your Match!</h2>
+        <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
           Based on your image, here's the lipstick we recommend.
         </p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8 items-start">
-        <Card className="overflow-hidden shadow-xl shadow-black/20 w-full border-border/60 bg-secondary/30">
+      <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-start">
+        <Card className="overflow-hidden shadow-xl shadow-primary/10 w-full border-primary/20 bg-background">
           <CardHeader>
-            <CardTitle className="text-2xl">Your Image & Color</CardTitle>
+            <CardTitle className="font-headline text-2xl">Your Image & Color</CardTitle>
             <CardDescription>The shade we detected from your upload.</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col items-center gap-6">
             {imagePreview && (
-              <div className="w-full aspect-square rounded-lg overflow-hidden border-4 border-background shadow-md">
+              <div className="w-full aspect-square rounded-lg overflow-hidden border-2 border-primary/20 shadow-md">
                  <Image 
                     src={imagePreview} 
                     alt="Uploaded lipstick shade" 
@@ -47,23 +47,23 @@ export default function ResultCard({ result, imagePreview, onReset }: ResultCard
                   />
               </div>
             )}
-            <div className="flex items-center gap-4 p-4 rounded-lg bg-background/50 w-full">
+            <div className="flex items-center gap-4 p-4 rounded-lg bg-secondary/80 w-full">
                 <div 
-                  className="w-16 h-16 rounded-full border-4 border-background shadow-inner" 
+                  className="w-16 h-16 rounded-full border-2 border-background/50 shadow-inner" 
                   style={{ backgroundColor: detectedColor }}
                   aria-label={`Detected color: ${detectedColor}`}
                 ></div>
                 <div className="text-left">
-                  <p className="font-semibold text-lg text-foreground">Detected Shade</p>
+                  <p className="font-bold text-lg text-foreground">Detected Shade</p>
                   <p className="font-mono text-muted-foreground uppercase">{detectedColor}</p>
                 </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="overflow-hidden shadow-xl shadow-black/20 w-full border-border/60 bg-secondary/30">
+        <Card className="overflow-hidden shadow-xl shadow-primary/10 w-full border-primary/20 bg-background sticky top-24">
           <CardHeader>
-            <CardTitle className="text-2xl">{match.productName}</CardTitle>
+            <CardTitle className="font-headline text-2xl">{match.productName}</CardTitle>
             <CardDescription>By {match.brand}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -72,17 +72,17 @@ export default function ResultCard({ result, imagePreview, onReset }: ResultCard
                 <span className="font-bold text-foreground capitalize">{match.finish}</span>
               </div>
               <div 
-                  className="w-full h-24 rounded-lg border-4 border-background shadow-inner" 
+                  className="w-full h-24 rounded-lg border-2 border-background/50 shadow-inner" 
                   style={{ backgroundColor: detectedColor }}
                 ></div>
           </CardContent>
           <CardFooter className="flex-col items-stretch gap-3 pt-6">
-            <Button asChild size="lg">
+            <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 glow-on-hover">
               <Link href={match.buyLink} target="_blank" rel="noopener noreferrer">
                 <ShoppingCart className="mr-2 h-5 w-5" /> Buy Now
               </Link>
             </Button>
-            <Button variant="outline" size="lg" onClick={onReset}>
+            <Button variant="outline" size="lg" onClick={onReset} className="transition-all hover:bg-primary/10">
               <RefreshCw className="mr-2 h-5 w-5" /> Try Another Shade
             </Button>
           </CardFooter>

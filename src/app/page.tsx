@@ -9,16 +9,13 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Camera } from 'lucide-react';
 import Image from 'next/image';
 
 import Header from '@/components/page/Header';
 import Footer from '@/components/page/Footer';
 import HeroSection from '@/components/page/HeroSection';
-import ImageUploader from '@/components/page/ImageUploader';
 import LoadingSpinner from '@/components/page/LoadingSpinner';
 import ResultCard from '@/components/page/ResultCard';
 import CameraView from '@/components/page/CameraView';
@@ -119,108 +116,49 @@ export default function Home() {
             )}
         </div>
 
-        <section className="py-16 md:py-24 bg-secondary/50">
+        <section className="py-16 md:py-24 bg-secondary">
           <div className="container mx-auto px-4">
-            <Accordion type="single" collapsible defaultValue="item-1">
-              <AccordionItem value="item-1">
-                <AccordionTrigger className="text-2xl font-semibold">How it works</AccordionTrigger>
-                <AccordionContent>
-                  <div className="grid md:grid-cols-3 gap-8 mt-8">
-                    <Card className="bg-background border-border/50">
-                      <CardHeader>
-                        <Image src="https://placehold.co/600x400.png" alt="Step 1" width={600} height={400} className="rounded-md" data-ai-hint="woman applying lipstick" />
-                        <CardTitle className="mt-4">Step 1</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-muted-foreground">Upload your photo to see shades for you.</p>
-                      </CardContent>
-                    </Card>
-                    <Card className="bg-background border-border/50">
-                      <CardHeader>
-                        <Image src="https://placehold.co/600x400.png" alt="Step 2" width={600} height={400} className="rounded-md" data-ai-hint="lipstick color wheel" />
-                        <CardTitle className="mt-4">Step 2</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-muted-foreground">Choose from a variety of shades and styles.</p>
-                      </CardContent>
-                    </Card>
-                    <Card className="bg-background border-border/50">
-                      <CardHeader>
-                        <Image src="https://placehold.co/600x400.png" alt="Step 3" width={600} height={400} className="rounded-md" data-ai-hint="woman admiring makeup" />
-                        <CardTitle className="mt-4">Step 3</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-muted-foreground">Finalize your selection and share your look!</p>
-                      </CardContent>
-                    </Card>
+            <div className="text-center max-w-3xl mx-auto">
+              <h2 className="font-headline text-3xl font-bold text-accent">How It Works</h2>
+              <p className="mt-4 text-lg text-muted-foreground">Find your perfect shade in three simple steps.</p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-8 mt-12">
+              <Card className="bg-background/80 border-border/50 text-center shadow-lg">
+                <CardHeader>
+                  <div className="mx-auto bg-primary/20 text-primary rounded-full h-16 w-16 flex items-center justify-center">
+                     <span className="font-headline text-2xl font-bold">1</span>
                   </div>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+                  <CardTitle className="font-headline text-xl mt-4">Upload Your Photo</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">Snap a selfie or upload a photo of lips wearing a shade you love.</p>
+                </CardContent>
+              </Card>
+              <Card className="bg-background/80 border-border/50 text-center shadow-lg">
+                <CardHeader>
+                   <div className="mx-auto bg-primary/20 text-primary rounded-full h-16 w-16 flex items-center justify-center">
+                     <span className="font-headline text-2xl font-bold">2</span>
+                  </div>
+                  <CardTitle className="font-headline text-xl mt-4">AI-Powered Analysis</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">Our smart AI detects the exact hex code of the lipstick shade.</p>
+                </CardContent>
+              </Card>
+              <Card className="bg-background/80 border-border/50 text-center shadow-lg">
+                <CardHeader>
+                   <div className="mx-auto bg-primary/20 text-primary rounded-full h-16 w-16 flex items-center justify-center">
+                     <span className="font-headline text-2xl font-bold">3</span>
+                  </div>
+                  <CardTitle className="font-headline text-xl mt-4">Get Your Match</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">Discover the closest product match from top brands and shop instantly.</p>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </section>
-
-        <section className="py-16 md:py-24">
-            <div className="container mx-auto px-4">
-              <Accordion type="single" collapsible defaultValue="item-1">
-                <AccordionItem value="item-1">
-                  <AccordionTrigger className="text-2xl font-semibold">Join LipShade Explorer</AccordionTrigger>
-                  <AccordionContent>
-                    <div className="space-y-12 mt-8">
-                      <div className="grid md:grid-cols-2 gap-8 items-center">
-                        <Image src="https://placehold.co/600x600.png" alt="User" width={600} height={600} className="rounded-lg" data-ai-hint="lipstick swatches arm" />
-                        <div>
-                          <h3 className="text-2xl font-bold text-primary">As a user</h3>
-                          <p className="mt-2 text-muted-foreground">Explore countless shades and find your match.</p>
-                          <Button variant="outline" className="mt-4">Join us</Button>
-                        </div>
-                      </div>
-                      <div className="grid md:grid-cols-2 gap-8 items-center">
-                        <div className="md:order-2">
-                           <Image src="https://placehold.co/600x600.png" alt="Brand" width={600} height={600} className="rounded-lg" data-ai-hint="lipstick product photography" />
-                        </div>
-                        <div className="md:order-1 text-md-right">
-                          <h3 className="text-2xl font-bold text-primary">As a brand</h3>
-                          <p className="mt-2 text-muted-foreground">Showcase your products and reach new customers.</p>
-                          <Button variant="outline" className="mt-4">Partner with us</Button>
-                        </div>
-                      </div>
-                      <div className="grid md:grid-cols-2 gap-8 items-center">
-                        <Image src="https://placehold.co/600x600.png" alt="Developer" width={600} height={600} className="rounded-lg" data-ai-hint="assorted lipsticks" />
-                        <div>
-                          <h3 className="text-2xl font-bold text-primary">As a developer</h3>
-                          <p className="mt-2 text-muted-foreground">Help us enhance the user experience and features.</p>
-                          <Button variant="outline" className="mt-4">Collaborate</Button>
-                        </div>
-                      </div>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </div>
-        </section>
-
-         <section className="py-16 md:py-24 bg-secondary/50">
-            <div className="container mx-auto px-4">
-               <Accordion type="single" collapsible defaultValue="item-1">
-                <AccordionItem value="item-1">
-                  <AccordionTrigger className="text-2xl font-semibold">Download our app</AccordionTrigger>
-                  <AccordionContent>
-                    <div className="grid md:grid-cols-2 gap-8 items-center mt-8">
-                        <div>
-                            <h3 className="text-3xl font-bold text-primary">Find your shade effortlessly!</h3>
-                            <p className="mt-4 text-muted-foreground">Experience the future of lipstick shopping with LipShade Explorer. Visualize shades in real-time and make confident choices.</p>
-                            <Button variant="outline" className="mt-6">Get app</Button>
-                        </div>
-                        <Image src="https://placehold.co/600x400.png" alt="Download App" width={600} height={400} className="rounded-lg" data-ai-hint="woman's lips color swatches" />
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </div>
-        </section>
-
-
       </main>
       <Footer />
     </div>

@@ -1,15 +1,22 @@
 import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
-import { Inter } from 'next/font/google';
+import { Playfair_Display, PT_Sans } from 'next/font/google';
 
-const inter = Inter({
+const playfair = Playfair_Display({
   subsets: ['latin'],
+  variable: '--font-headline',
+});
+
+const ptSans = PT_Sans({
+  subsets: ['latin'],
+  weight: ['400', '700'],
   variable: '--font-body',
 });
 
+
 export const metadata: Metadata = {
-  title: 'LipShade Explorer',
+  title: 'ShadeMatch',
   description: 'Discover your perfect lipstick shade',
 };
 
@@ -19,8 +26,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark" style={{ colorScheme: 'dark' }}>
-      <body className={`${inter.variable} font-body antialiased`}>
+    <html lang="en" className="" style={{ colorScheme: 'light' }}>
+      <body className={`${playfair.variable} ${ptSans.variable} font-body antialiased`}>
         {children}
         <Toaster />
       </body>
