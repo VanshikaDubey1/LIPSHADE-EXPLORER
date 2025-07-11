@@ -8,19 +8,21 @@ HOW OUR WEBSITE LOOKS WHILE WORKING
 
 <p align="center">
   <img src="./lipshadefront.png" alt="Lipshade UI Preview" width="400"/>
+<em>Lipshade AI - Preview of the lipstick shade Home page</em>
 </p>
 
 
 
 <p align="center">
   <img src="./lipshade1.png" alt="Lipshade process" width="400"/>
+<em>Lipshade AI - Preview of the lipstick shade matcher UI</em>
 </p>
-
 
  
 
 <p align="center">
   <img src="./lipshade2.png" alt="Lipshade result" width="400"/>
+  <em>Lipshade AI - Preview of the lipstick shade Result </em>
 </p>
 
 
