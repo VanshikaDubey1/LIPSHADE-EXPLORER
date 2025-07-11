@@ -23,8 +23,8 @@ export async function getShadeMatch(formData: FormData): Promise<{ detectedColor
 
     const colorDetectionResult = await detectLipstickColor({ photoDataUri });
     
-    if (!colorDetectionResult?.hexColor) {
-      return { error: 'Could not detect a color in the image. Please try a clearer picture.' };
+    if (colorDetectionResult.error || !colorDetectionResult.hexColor) {
+      return { error: colorDetectionResult.error || 'Could not detect a color in the image. Please try a clearer picture.' };
     }
 
     const matchResult = await matchLipstickShade({ colorHex: colorDetectionResult.hexColor });

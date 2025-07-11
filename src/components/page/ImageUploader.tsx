@@ -82,10 +82,10 @@ export default function ImageUploader({ onUpload, isLoading }: ImageUploaderProp
   return (
     <div className="max-w-2xl mx-auto text-center">
       <h2 className="font-headline text-3xl font-bold tracking-tight sm:text-4xl">
-        Upload Your Shade
+        Find Your Shade
       </h2>
       <p className="mt-4 text-lg text-muted-foreground">
-        Drag & drop an image, or click to select one from your device.
+        Upload a photo of lips wearing lipstick, or drag & drop an image.
       </p>
       
       <div 
