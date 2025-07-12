@@ -29,8 +29,6 @@ HOW OUR WEBSITE LOOKS WHILE WORKING
 
 
 
-[🎥 Watch Demo Video](video.mp4 )
-
 ---
 
 ## 💄 Key Features
