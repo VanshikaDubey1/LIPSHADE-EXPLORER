@@ -1,12 +1,9 @@
-
 'use client';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useToast } from "@/hooks/use-toast";
 import { getRecommendedShades } from '@/app/actions';
-import * as faceLandmarksDetection from '@tensorflow-models/face-landmarks-detection';
-import * as tf from '@tensorflow/tfjs';
-import '@tensorflow/tfjs-backend-webgl';
+import type { FaceLandmarksDetector } from '@tensorflow-models/face-landmarks-detection';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { Loader2, X, Wand2 } from 'lucide-react';
@@ -27,8 +24,7 @@ type LipstickShade = {
   category: 'Reds' | 'Pinks' | 'Nudes' | 'Recommended';
 };
 
-type DetectionStatus = 'loading' | 'starting_camera' | 'running' | 'error';
-
+type DetectionStatus = 'loading_camera' | 'running' | 'error';
 
 const initialLipstickShades: LipstickShade[] = [
     // Reds
@@ -49,6 +45,7 @@ const initialLipstickShades: LipstickShade[] = [
 ];
 
 function hexToRgba(hex: string, alpha: number): string {
+    if (!hex || !hex.startsWith('#')) return `rgba(0,0,0,${alpha})`;
     const r = parseInt(hex.slice(1, 3), 16);
     const g = parseInt(hex.slice(3, 5), 16);
     const b = parseInt(hex.slice(5, 7), 16);
@@ -56,10 +53,13 @@ function hexToRgba(hex: string, alpha: number): string {
 }
 
 type VirtualTryOnProps = {
+  model: FaceLandmarksDetector;
   onCancel: () => void;
 };
 
-const drawLipPath = (ctx: CanvasRenderingContext2D, keypoints: faceLandmarksDetection.Keypoint[], indices: number[]) => {
+const LIPS_CONTOUR = [...LIP_LANDMARKS.UPPER_OUTER, ...LIP_LANDMARKS.LOWER_OUTER.reverse()];
+
+const drawLipPath = (ctx: CanvasRenderingContext2D, keypoints: any[], indices: number[]) => {
     ctx.beginPath();
     if (indices.length === 0) return;
     const startPoint = keypoints[indices[0]];
@@ -76,15 +76,12 @@ const drawLipPath = (ctx: CanvasRenderingContext2D, keypoints: faceLandmarksDete
     ctx.fill();
 };
 
-const LIPS_CONTOUR = [...LIP_LANDMARKS.UPPER_OUTER, ...LIP_LANDMARKS.LOWER_OUTER.reverse()];
-
-export default function VirtualTryOn({ onCancel }: VirtualTryOnProps) {
+export default function VirtualTryOn({ model, onCancel }: VirtualTryOnProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameId = useRef<number | null>(null);
 
-  const [model, setModel] = useState<faceLandmarksDetection.FaceLandmarksDetector | null>(null);
-  const [status, setStatus] = useState<DetectionStatus>('loading');
+  const [status, setStatus] = useState<DetectionStatus>('loading_camera');
   const [isRecommending, setIsRecommending] = useState(false);
   
   const [lipstickShades, setLipstickShades] = useState<LipstickShade[]>(initialLipstickShades);
@@ -94,17 +91,9 @@ export default function VirtualTryOn({ onCancel }: VirtualTryOnProps) {
   const { toast } = useToast();
 
   useEffect(() => {
-    const loadModelAndCamera = async () => {
+    const startCamera = async () => {
       try {
-        setStatus('loading');
-        await tf.setBackend('webgl');
-        const loadedModel = await faceLandmarksDetection.createDetector(
-          faceLandmarksDetection.SupportedModels.MediaPipeFaceMesh,
-          { runtime: 'tfjs', refineLandmarks: true }
-        );
-        setModel(loadedModel);
-        
-        setStatus('starting_camera');
+        setStatus('loading_camera');
         const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: 640, height: 480 } });
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
@@ -113,16 +102,16 @@ export default function VirtualTryOn({ onCancel }: VirtualTryOnProps) {
           };
         }
       } catch (error) {
-        console.error("Failed to load model or camera", error);
+        console.error("Failed to start camera", error);
         toast({
             variant: "destructive",
-            title: "Initialization Failed",
-            description: "Could not start the camera or face detection model. Please check permissions and try again."
+            title: "Camera Access Denied",
+            description: "Please check permissions and try again."
         });
         setStatus('error');
       }
     };
-    loadModelAndCamera();
+    startCamera();
     
     return () => {
        if (videoRef.current && videoRef.current.srcObject) {
@@ -135,14 +124,14 @@ export default function VirtualTryOn({ onCancel }: VirtualTryOnProps) {
     }
   }, [toast]);
   
-  const drawLips = useCallback((keypoints: faceLandmarksDetection.Keypoint[], ctx: CanvasRenderingContext2D) => {
+  const drawLips = useCallback((keypoints: any[], ctx: CanvasRenderingContext2D) => {
     ctx.fillStyle = hexToRgba(selectedShade.color, 0.6);
     drawLipPath(ctx, keypoints, LIPS_CONTOUR);
   }, [selectedShade.color]);
 
   const detectFaces = useCallback(async () => {
     if (status !== 'running' || !model || !videoRef.current?.srcObject || !canvasRef.current || videoRef.current.readyState < 3) {
-      animationFrameId.current = requestAnimationFrame(detectFaces);
+      if (status === 'running') animationFrameId.current = requestAnimationFrame(detectFaces);
       return;
     }
 
@@ -212,19 +201,21 @@ export default function VirtualTryOn({ onCancel }: VirtualTryOnProps) {
           const res = await getRecommendedShades(formData);
           if (res.error) throw new Error(res.error);
           
-          const newShades: LipstickShade[] = res.recommendations.map(r => ({
-            name: r.productName,
-            color: r.hexColor,
-            category: 'Recommended',
-          }));
+          if (res.recommendations.length > 0) {
+              const newShades: LipstickShade[] = res.recommendations.map(r => ({
+                name: `${r.brand} - ${r.productName}`,
+                color: r.hexColor,
+                category: 'Recommended',
+              }));
 
-          setLipstickShades(prev => [...newShades, ...initialLipstickShades.filter(s => s.category !== 'Recommended')]);
-          setActiveCategory('Recommended');
-          if (newShades.length > 0) {
-            setSelectedShade(newShades[0]);
+              // Filter out old recommendations before adding new ones
+              setLipstickShades(prev => [...newShades, ...prev.filter(s => s.category !== 'Recommended')]);
+              setActiveCategory('Recommended');
+              setSelectedShade(newShades[0]);
+              toast({ title: "We found some shades for you!" });
+          } else {
+              toast({ variant: 'destructive', title: "Couldn't find recommendations", description: "Try a photo with different lighting." });
           }
-          toast({ title: "We found some shades for you!" });
-
         } catch (error: any) {
           toast({ variant: 'destructive', title: "Recommendation Failed", description: error.message });
         } finally {
@@ -236,8 +227,7 @@ export default function VirtualTryOn({ onCancel }: VirtualTryOnProps) {
 
   const getStatusMessage = () => {
     switch(status) {
-        case 'loading': return 'Warming up the AI...';
-        case 'starting_camera': return 'Starting camera...';
+        case 'loading_camera': return 'Starting camera...';
         default: return '';
     }
   };
@@ -268,7 +258,7 @@ export default function VirtualTryOn({ onCancel }: VirtualTryOnProps) {
                             <Alert variant="destructive" className="max-w-md">
                                 <AlertTitle>Camera or Model Error</AlertTitle>
                                 <AlertDescription>
-                                    Could not start the camera or face detection model. Please check permissions and try refreshing.
+                                    Could not start the camera. Please check permissions and try refreshing.
                                 </AlertDescription>
                             </Alert>
                         )}

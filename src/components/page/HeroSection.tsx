@@ -4,16 +4,18 @@ import LipstickIcon from '@/components/page/LipstickIcon';
 import ImageUploader from '@/components/page/ImageUploader';
 import TypewriterTitle from '@/components/page/TypewriterTitle';
 import { Button } from '@/components/ui/button';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Loader2 } from 'lucide-react';
 
 
 type HeroSectionProps = {
   onUpload: (file: File) => void;
   onCameraClick: () => void;
   onTryOnCLick: () => void;
+  isModelLoading: boolean;
+  isTryOnReady: boolean;
 };
 
-export default function HeroSection({ onUpload, onCameraClick, onTryOnCLick }: HeroSectionProps) {
+export default function HeroSection({ onUpload, onCameraClick, onTryOnCLick, isModelLoading, isTryOnReady }: HeroSectionProps) {
   return (
     <section className="relative w-full py-20 md:py-32 lg:py-40 overflow-hidden gradient-bg">
        <div className="absolute inset-0 bg-background/50 backdrop-blur-sm"></div>
@@ -31,9 +33,18 @@ export default function HeroSection({ onUpload, onCameraClick, onTryOnCLick }: H
                <ImageUploader onUpload={onUpload} onCameraClick={onCameraClick} isLoading={false} />
             </div>
              <div className="mt-6">
-                <Button size="lg" className="w-full sm:w-auto glow-on-hover bg-accent text-accent-foreground hover:bg-accent/90" onClick={onTryOnCLick}>
-                  <Sparkles className="mr-2 h-5 w-5" />
-                  Live Virtual Try-On
+                <Button 
+                    size="lg" 
+                    className="w-full sm:w-auto glow-on-hover bg-accent text-accent-foreground hover:bg-accent/90" 
+                    onClick={onTryOnCLick}
+                    disabled={isModelLoading || !isTryOnReady}
+                >
+                  {isModelLoading ? (
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  ) : (
+                    <Sparkles className="mr-2 h-5 w-5" />
+                  )}
+                  {isModelLoading ? "Preparing Try-On..." : "Live Virtual Try-On"}
                 </Button>
              </div>
           </div>

@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useToast } from "@/hooks/use-toast";
 import type { MatchLipstickShadeOutput } from '@/ai/flows/match-lipstick-shade';
+import type { FaceLandmarksDetector } from '@tensorflow-models/face-landmarks-detection';
 import { getShadeMatch } from '@/app/actions';
 import {
   Dialog,
@@ -11,7 +12,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { UploadCloud } from 'lucide-react';
+import { UploadCloud, Sparkles, Loader2 } from 'lucide-react';
 
 import Header from '@/components/page/Header';
 import Footer from '@/components/page/Footer';
@@ -36,26 +37,55 @@ export default function Home() {
   const [showStickyButton, setShowStickyButton] = useState(true);
   const { toast } = useToast();
   
+  const [faceModel, setFaceModel] = useState<FaceLandmarksDetector | null>(null);
+  const [isModelLoading, setIsModelLoading] = useState(false);
+  
   const uploaderRef = useRef<HTMLDivElement>(null);
   const resultRef = useRef<HTMLDivElement>(null);
 
+  // Pre-load the heavy face detection model in the background
   useEffect(() => {
+    const loadModel = async () => {
+        setIsModelLoading(true);
+        try {
+            // Dynamically import TensorFlow and the model
+            const tf = await import('@tensorflow/tfjs');
+            await import('@tensorflow/tfjs-backend-webgl');
+            const faceLandmarksDetection = await import('@tensorflow-models/face-landmarks-detection');
+
+            await tf.setBackend('webgl');
+            const model = await faceLandmarksDetection.createDetector(
+                faceLandmarksDetection.SupportedModels.MediaPipeFaceMesh,
+                { runtime: 'tfjs', refineLandmarks: true }
+            );
+            setFaceModel(model);
+        } catch (error) {
+            console.error("Failed to pre-load face model:", error);
+            toast({
+                variant: "destructive",
+                title: "Virtual Try-On Disabled",
+                description: "Could not load the AI model for the virtual try-on feature.",
+            });
+        } finally {
+            setIsModelLoading(false);
+        }
+    };
+    loadModel();
+  }, [toast]);
+
+
+  useEffect(() => {
+    if (!uploaderRef.current) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Hide sticky button when the uploader is in view
         setShowStickyButton(!entry.isIntersecting);
       },
-      { threshold: 0.1 } // Adjust threshold as needed
+      { threshold: 0.1 }
     );
 
-    if (uploaderRef.current) {
-      observer.observe(uploaderRef.current);
-    }
-
+    observer.observe(uploaderRef.current);
     return () => {
-      if (uploaderRef.current) {
-        observer.unobserve(uploaderRef.current);
-      }
+      if (uploaderRef.current) observer.unobserve(uploaderRef.current);
     };
   }, []);
   
@@ -77,7 +107,6 @@ export default function Home() {
     setIsLoading(true);
     setResult(null);
 
-    // Scroll to results area
     setTimeout(() => {
         resultRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
@@ -117,18 +146,35 @@ export default function Home() {
     setResult(null);
     setImagePreview(null);
     setIsLoading(false);
-    // After reset, scroll back to the uploader
     setTimeout(() => {
       uploaderRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
   };
+
+  const handleTryOnOpen = () => {
+    if (faceModel) {
+      setIsTryOnOpen(true);
+    } else {
+      toast({
+        title: isModelLoading ? "AI Model is loading..." : "Virtual Try-On Not Ready",
+        description: isModelLoading ? "Please wait a moment while we prepare the virtual experience." : "The AI model couldn't be loaded. Please refresh the page.",
+      });
+    }
+  };
+
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-1">
         <div ref={uploaderRef}>
-          <HeroSection onUpload={handleUpload} onCameraClick={() => setIsCameraOpen(true)} onTryOnCLick={() => setIsTryOnOpen(true)} />
+          <HeroSection 
+            onUpload={handleUpload} 
+            onCameraClick={() => setIsCameraOpen(true)}
+            onTryOnCLick={handleTryOnOpen}
+            isModelLoading={isModelLoading}
+            isTryOnReady={!!faceModel}
+          />
         </div>
         
         <Dialog open={isCameraOpen} onOpenChange={setIsCameraOpen}>
@@ -140,14 +186,16 @@ export default function Home() {
           </DialogContent>
         </Dialog>
 
-        <Dialog open={isTryOnOpen} onOpenChange={setIsTryOnOpen}>
-          <DialogContent className="max-w-5xl p-0 border-0">
-             <DialogHeader className="sr-only">
-                <DialogTitle>Virtual Try-On</DialogTitle>
-             </DialogHeader>
-             <VirtualTryOn onCancel={() => setIsTryOnOpen(false)} />
-          </DialogContent>
-        </Dialog>
+        {isTryOnOpen && faceModel && (
+          <Dialog open={isTryOnOpen} onOpenChange={setIsTryOnOpen}>
+            <DialogContent className="max-w-5xl p-0 border-0">
+              <DialogHeader className="sr-only">
+                  <DialogTitle>Virtual Try-On</DialogTitle>
+              </DialogHeader>
+              <VirtualTryOn model={faceModel} onCancel={() => setIsTryOnOpen(false)} />
+            </DialogContent>
+          </Dialog>
+        )}
 
 
         <div ref={resultRef} className="py-16 md:py-24 transition-all duration-500 container mx-auto px-4 min-h-[50vh]">
@@ -209,14 +257,14 @@ export default function Home() {
 
       {/* Sticky Button for Mobile */}
       {showStickyButton && !result && (
-        <div className="md:hidden fixed bottom-4 right-4 z-50 animate-in fade-in slide-in-from-bottom-8 duration-500">
+        <div className="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-bottom-8 duration-500 w-[calc(100%-2rem)] max-w-sm">
            <Button
               size="lg"
-              className="rounded-full shadow-lg glow-on-hover h-14 px-6"
+              className="rounded-full shadow-lg glow-on-hover h-14 w-full"
               onClick={scrollToUploader}
             >
               <UploadCloud className="mr-2 h-5 w-5" />
-              Upload Now
+              Find Your Match
             </Button>
         </div>
       )}

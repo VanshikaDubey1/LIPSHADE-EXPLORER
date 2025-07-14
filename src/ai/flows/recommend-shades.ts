@@ -10,7 +10,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import { findSimilarLipsticks } from '@/services/lipstick-service';
+import { getFullLipstickDatabase, LipstickProduct } from '@/services/lipstick-service';
 
 const RecommendShadesInputSchema = z.object({
   photoDataUri: z
@@ -41,24 +41,45 @@ export async function recommendShades(input: RecommendShadesInput): Promise<Reco
 
 const prompt = ai.definePrompt({
   name: 'recommendShadesPrompt',
-  input: {schema: RecommendShadesInputSchema},
+  input: {
+    schema: z.object({
+      photoDataUri: z.string(),
+      allProducts: z.array(z.object({
+        brand: z.string(),
+        productName: z.string(),
+        hex: z.string(),
+        finish: z.string(),
+        buyLink: z.string().url(),
+      })),
+    })
+  },
   output: {schema: RecommendShadesOutputSchema},
-  prompt: `You are a world-class AI makeup artist. Your task is to analyze the provided image of a face and recommend the three most flattering lipstick shades.
+  prompt: `You are a world-class AI makeup artist. Your task is to analyze the provided image of a face and select the three most flattering lipstick shades from a provided list of products.
 
 **Reasoning Process:**
-1.  **Analyze Skin Tone:** Carefully examine the user's face, paying close attention to the forehead and cheeks. Determine their overall skin tone (e.g., fair, light, medium, tan, deep) and undertone (cool, warm, neutral).
-2.  **Select Three Perfect Shades:** Based on your analysis, choose exactly THREE lipstick shades that would be most flattering for the user's complexion. You MUST select one shade from each of the following categories:
+1.  **Analyze Skin Tone:** Carefully examine the user's face in the image. Determine their overall skin tone (e.g., fair, light, medium, tan, deep) and undertone (cool, warm, neutral).
+2.  **Select Three Perfect Shades:** Based on your analysis, review the 'Available Products' list. You MUST choose exactly THREE products that would be most flattering for the user's complexion.
     *   One **Red** shade.
     *   One **Pink** shade.
     *   One **Nude** shade.
-3.  **Provide Hex Codes:** For each chosen shade, provide its corresponding hex color code. Be specific and choose colors that align with your analysis (e.g., a blue-based red for cool undertones, a peachy nude for warm undertones).
-4.  **Suggest Product Names:** For each hex code, create a realistic and appealing product name and assign it to a popular makeup brand. Examples: 'MAC - Ruby Woo', 'Charlotte Tilbury - Pillow Talk', 'Fenty Beauty - Rose Nude'.
+3.  **Provide Product Details:** For each chosen product, you must extract its details directly from the list. Do not invent or alter information.
 
 **Response Rules:**
-*   **Success:** If you can analyze the face, you MUST return an array of exactly three recommendations in the \`recommendations\` field, one for each category (Red, Pink, Nude). Provide the category, hexColor, productName, and brand for each.
+*   **Success:** If you can analyze the face, you MUST return an array of exactly three recommendations in the \`recommendations\` field, one for each category (Red, Pink, Nude). Provide the category, hexColor (from the 'hex' field), productName, and brand for each.
 *   **Failure:** If the image does not clearly show a face, is blurry, or unsuitable for analysis, you MUST return a polite error message in the \`error\` field. Example: "Could not analyze the face in the photo. Please provide a clear, forward-facing picture."
 
-Image for analysis: {{media url=photoDataUri}}`,
+**Image for analysis:** {{media url=photoDataUri}}
+
+---
+
+**Available Products:**
+{{#each allProducts}}
+- Brand: {{brand}}
+- Product Name: {{productName}}
+- Hex: {{hex}}
+---
+{{/each}}
+`,
 });
 
 
@@ -69,7 +90,42 @@ const recommendShadesFlow = ai.defineFlow(
     outputSchema: RecommendShadesOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
-    return output!;
+    const allProducts = await getFullLipstickDatabase();
+    
+    // Categorize products to help the AI
+    const categorizedProducts = allProducts.map(p => {
+        const name = p.productName.toLowerCase();
+        let category: 'Red' | 'Pink' | 'Nude' | 'Other' = 'Other';
+        if (name.includes('red') || name.includes('berry') || name.includes('wine') || name.includes('cherry')) {
+            category = 'Red';
+        } else if (name.includes('pink') || name.includes('rose') || name.includes('mauve')) {
+            category = 'Pink';
+        } else if (name.includes('nude') || name.includes('peach') || name.includes('brown') || name.includes('taupe') || name.includes('pillow talk')) {
+            category = 'Nude';
+        }
+        return {...p, category};
+    });
+
+    const {output} = await prompt({ 
+      photoDataUri: input.photoDataUri,
+      allProducts: categorizedProducts
+    });
+
+    if (!output) {
+      return { recommendations: [], error: 'Failed to get a response from the AI model.' };
+    }
+
+    // Ensure the output recommendations are valid products from our database
+    if (output.recommendations) {
+      output.recommendations = output.recommendations.map(rec => {
+        const foundProduct = allProducts.find(p => p.productName === rec.productName);
+        if (foundProduct) {
+          return { ...rec, hexColor: foundProduct.hex }; // Use the real hex from our DB
+        }
+        return rec; // Should ideally not happen if prompt is followed
+      });
+    }
+
+    return output;
   }
 );

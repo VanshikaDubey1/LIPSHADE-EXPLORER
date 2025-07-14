@@ -21,11 +21,11 @@ const lipstickDatabase: LipstickProduct[] = [
   { id: 3, brand: 'Lakmé', productName: 'Enrich Lip Crayon in Peach Magnet', hex: '#E29E87', finish: 'Creme', buyLink: 'https://www.nykaa.com/lakme-enrich-lip-crayon/p/258417' },
   { id: 4, brand: 'Lakmé', productName: 'Cushion Matte Lipstick in Pink Blush', hex: '#D48A96', finish: 'Matte', buyLink: 'https://www.nykaa.com/lakme-cushion-matte-lipstick/p/659695' },
   { id: 5, brand: 'Lakmé', productName: '9 to 5 Weightless Matte Mousse Lip & Cheek Color in Blush Velvet', hex: '#D08A8F', finish: 'Matte', buyLink: 'https://www.nykaa.com/lakme-9-to-5-weightless-matte-mousse-lip-cheek-color/p/79599' },
-  { id: 446, brand: 'Lakmé', productName: 'Absolute Matte Melt Liquid Lip Color in Wine N Dine', hex: '#8C4A58', finish: 'Liquid', buyLink: 'https://www.lakmeindia.com/products/lakme-absolute-matte-melt-liquid-lip-color-wine-n-dine' },
-  { id: 447, brand: 'Lakmé', productName: '9 to 5 Primer + Matte Lip Color in Rosy Sunday', hex: '#D17C7E', finish: 'Matte', buyLink: 'https://www.lakmeindia.com/products/lakme-9-to-5-primer-matte-lip-color-rosy-sunday' },
-  { id: 448, brand: 'Lakmé', productName: 'Enrich Lip Crayon in Berry Red', hex: '#C04C5A', finish: 'Creme', buyLink: 'https://www.lakmeindia.com/products/lakme-enrich-lip-crayon-berry-red' },
-  { id: 449, brand: 'Lakmé', productName: 'Absolute Spotlight Lip Gloss in Berry Heaven', hex: '#C07080', finish: 'Glossy', buyLink: 'https://www.lakmeindia.com/products/lakme-absolute-spotlight-lip-gloss-berry-heaven' },
-  { id: 450, brand: 'Lakmé', productName: 'Cushion Matte Lipstick in Wine Touch', hex: '#A35A6D', finish: 'Matte', buyLink: 'https://www.lakmeindia.com/products/lakme-cushion-matte-lipstick-wine-touch' },
+  { id: 446, brand: 'Lakmé', productName: 'Absolute Matte Melt Liquid Lip Color in Wine N Dine', hex: '#8C4A58', finish: 'Liquid', buyLink: 'https://www.nykaa.com/lakme-absolute-matte-melt-liquid-lip-color/p/249141' },
+  { id: 447, brand: 'Lakmé', productName: '9 to 5 Primer + Matte Lip Color in Rosy Sunday', hex: '#D17C7E', finish: 'Matte', buyLink: 'https://www.nykaa.com/lakme-9-to-5-primer-matte-lip-color/p/79619' },
+  { id: 448, brand: 'Lakmé', productName: 'Enrich Lip Crayon in Berry Red', hex: '#C04C5A', finish: 'Creme', buyLink: 'https://www.nykaa.com/lakme-enrich-lip-crayon/p/258417' },
+  { id: 449, brand: 'Lakmé', productName: 'Absolute Spotlight Lip Gloss in Berry Heaven', hex: '#C07080', finish: 'Glossy', buyLink: 'https://www.nykaa.com/lakme-absolute-spotlight-lip-gloss/p/660058' },
+  { id: 450, brand: 'Lakmé', productName: 'Cushion Matte Lipstick in Wine Touch', hex: '#A35A6D', finish: 'Matte', buyLink: 'https://www.nykaa.com/lakme-cushion-matte-lipstick/p/659695' },
 
   // Sugar Cosmetics
   { id: 6, brand: 'Sugar Cosmetics', productName: 'Matte As Hell Crayon Lipstick in 01 Scarlett O\'Hara', hex: '#C5292D', finish: 'Matte', buyLink: 'https://in.sugarcosmetics.com/products/matte-as-hell-crayon-lipstick-01-scarlett-o-hara' },
@@ -45,18 +45,18 @@ const lipstickDatabase: LipstickProduct[] = [
   { id: 13, brand: 'Kay Beauty', productName: 'Lip Crayon in Rom-Com', hex: '#CE8B80', finish: 'Matte', buyLink: 'https://www.nykaa.com/kay-beauty-matte-action-lip-crayon/p/681788?skuId=681781' },
   { id: 14, brand: 'Kay Beauty', productName: 'Matteinee Lipstick in On-Screen', hex: '#B87A71', finish: 'Matte', buyLink: 'https://www.nykaa.com/kay-beauty-matteinee-lipstick/p/1109062?skuId=1109050' },
   { id: 15, brand: 'Kay Beauty', productName: 'Matte Drama Lipstick in Muse', hex: '#A85A59', finish: 'Matte', buyLink: 'https://www.nykaa.com/kay-beauty-matte-drama-lipstick/p/2670004?skuId=2669994' },
-  { id: 441, brand: 'Kay Beauty', productName: 'Matte Lipstick in Feature', hex: '#C67A6C', finish: 'Matte', buyLink: 'https://www.nykaa.com/kay-beauty-matte-lipstick-feature/p/681755' },
-  { id: 442, brand: 'Kay Beauty', productName: 'Creme Lipstick in Premiere', hex: '#CF857A', finish: 'Creme', buyLink: 'https://www.nykaa.com/kay-beauty-creme-lipstick-premiere/p/1109038' },
-  { id: 443, brand: 'Kay Beauty', productName: 'Lip Crayon in Blockbuster', hex: '#A14E50', finish: 'Matte', buyLink: 'https://www.nykaa.com/kay-beauty-matte-action-lip-crayon-blockbuster/p/681788' },
-  { id: 444, brand: 'Kay Beauty', productName: 'Gloss in Paparazzi', hex: '#D9AFAC', finish: 'Glossy', buyLink: 'https://www.nykaa.com/kay-beauty-lip-gloss-paparazzi/p/1109074' },
-  { id: 445, brand: 'Kay Beauty', productName: 'Matteinee Lipstick in Climax', hex: '#874D4F', finish: 'Matte', buyLink: 'https://www.nykaa.com/kay-beauty-matteinee-lipstick-climax/p/1109062' },
+  { id: 441, brand: 'Kay Beauty', productName: 'Matte Lipstick in Feature', hex: '#C67A6C', finish: 'Matte', buyLink: 'https://www.nykaa.com/kay-beauty-matte-lipstick/p/681755' },
+  { id: 442, brand: 'Kay Beauty', productName: 'Creme Lipstick in Premiere', hex: '#CF857A', finish: 'Creme', buyLink: 'https://www.nykaa.com/kay-beauty-creme-lipstick/p/1109038' },
+  { id: 443, brand: 'Kay Beauty', productName: 'Lip Crayon in Blockbuster', hex: '#A14E50', finish: 'Matte', buyLink: 'https://www.nykaa.com/kay-beauty-matte-action-lip-crayon/p/681788' },
+  { id: 444, brand: 'Kay Beauty', productName: 'Gloss in Paparazzi', hex: '#D9AFAC', finish: 'Glossy', buyLink: 'https://www.nykaa.com/kay-beauty-lip-gloss/p/1109074' },
+  { id: 445, brand: 'Kay Beauty', productName: 'Matteinee Lipstick in Climax', hex: '#874D4F', finish: 'Matte', buyLink: 'https://www.nykaa.com/kay-beauty-matteinee-lipstick/p/1109062' },
 
   // MyGlamm
   { id: 16, brand: 'MyGlamm', productName: 'LIT Liquid Matte Lipstick in Swinger', hex: '#D35757', finish: 'Liquid', buyLink: 'https://www.myglamm.com/product/lit-liquid-matte-lipstick-swinger.html' },
-  { id: 17, brand: 'MyGlamm', productName: 'Ultimatte Long-Stay Matte Lipstick in Showgirl', hex: '#B8536A', finish: 'Matte', buyLink: 'https://www.myglamm.com/product/ultimatte-long-stay-matte-lipstick-showgirl.html' },
-  { id: 18, brand: 'MyGlamm', productName: 'Pose HD Lipstick in True Red', hex: '#C73434', finish: 'Satin', buyLink: 'https://www.myglamm.com/product/myglamm-pose-hd-lipstick-true-red.html' },
-  { id: 19, brand: 'MyGlamm', productName: 'K.Play Flavoured Lipstick in Pink Guava Smash', hex: '#D87A8A', finish: 'Creme', buyLink: 'https://www.myglamm.com/product/k-play-flavoured-lipstick-pink-guava-smash.html' },
-  { id: 20, brand: 'MyGlamm', productName: 'Perfect Curves Matte Lip Crayon in Terra', hex: '#B07563', finish: 'Matte', buyLink: 'https://www.myglamm.com/product/perfect-curves-matte-lip-crayon-terra-brown.html' },
+  { id: 17, brand: 'MyGlamm', productName: 'Ultimatte Long-Stay Matte Lipstick in Showgirl', hex: '#B8536A', finish: 'Matte', buyLink: 'https://www.myglamm.com/product/ultimatte-long-stay-matte-lipstick.html' },
+  { id: 18, brand: 'MyGlamm', productName: 'Pose HD Lipstick in True Red', hex: '#C73434', finish: 'Satin', buyLink: 'https://www.myglamm.com/product/pose-hd-lipstick.html' },
+  { id: 19, brand: 'MyGlamm', productName: 'K.Play Flavoured Lipstick in Pink Guava Smash', hex: '#D87A8A', finish: 'Creme', buyLink: 'https://www.myglamm.com/product/k-play-flavoured-lipstick.html' },
+  { id: 20, brand: 'MyGlamm', productName: 'Perfect Curves Matte Lip Crayon in Terra', hex: '#B07563', finish: 'Matte', buyLink: 'https://www.myglamm.com/product/perfect-curves-matte-lip-crayon.html' },
 
   // Nykaa Cosmetics
   { id: 21, brand: 'Nykaa Cosmetics', productName: 'Matte To Last! Liquid Lipstick in Maharani', hex: '#9E2B2F', finish: 'Liquid', buyLink: 'https://www.nykaa.com/nykaa-matte-to-last-liquid-lipstick/p/242250' },
@@ -74,10 +74,10 @@ const lipstickDatabase: LipstickProduct[] = [
 
   // Plum
   { id: 31, brand: 'Plum', productName: 'Matterrific Lipstick in Sink In Pink', hex: '#D17C92', finish: 'Matte', buyLink: 'https://www.nykaa.com/plum-matterrific-lipstick/p/489025' },
-  { id: 32, brand: 'Plum', productName: 'Matte In Heaven Liquid Lipstick in Lychee-licious', hex: '#C68079', finish: 'Liquid', buyLink: 'https://www.nykaa.com/plum-matte-in-heaven-liquid-lipstick/p/1189914' },
+  { id: 32, brand: 'Plum', productName: 'Matte In Heaven Liquid Lipstick in Lychee-licious', hex: '#C68079', finish: 'Liquid', buyLink: 'https://www.nykaa.com/plum-matte-in-heaven-liquid-lipstick-new-shades/p/1189914' },
   { id: 33, brand: 'Plum', productName: 'Candy Melts Vegan Lip Balm in Berry Feast', hex: '#B57080', finish: 'Glossy', buyLink: 'https://www.nykaa.com/plum-candy-melts-vegan-lip-balm/p/767170' },
   { id: 34, brand: 'Plum', productName: 'Matterrific Lipstick in Rosy Rhyme', hex: '#B96A7C', finish: 'Matte', buyLink: 'https://www.nykaa.com/plum-matterrific-lipstick/p/489025' },
-  { id: 35, brand: 'Plum', productName: 'Matte In Heaven Liquid Lipstick in Cocoa-nut', hex: '#A3685C', finish: 'Liquid', buyLink: 'https://www.nykaa.com/plum-matte-in-heaven-liquid-lipstick/p/1189914' },
+  { id: 35, brand: 'Plum', productName: 'Matte In Heaven Liquid Lipstick in Cocoa-nut', hex: '#A3685C', finish: 'Liquid', buyLink: 'https://www.nykaa.com/plum-matte-in-heaven-liquid-lipstick-new-shades/p/1189914' },
 ];
 
 
@@ -124,4 +124,12 @@ export async function findSimilarLipsticks(targetHex: string): Promise<LipstickP
   
   // Return the top 3 matches
   return productsWithDifference.slice(0, 3);
+}
+
+/**
+ * Returns the entire lipstick database.
+ * @returns An array of all lipstick products.
+ */
+export async function getFullLipstickDatabase(): Promise<LipstickProduct[]> {
+    return lipstickDatabase;
 }
