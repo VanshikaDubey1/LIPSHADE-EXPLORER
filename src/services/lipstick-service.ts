@@ -54,9 +54,9 @@ const lipstickDatabase: LipstickProduct[] = [
   // MyGlamm
   { id: 16, brand: 'MyGlamm', productName: 'LIT Liquid Matte Lipstick in Swinger', hex: '#D35757', finish: 'Liquid', buyLink: 'https://www.myglamm.com/product/lit-liquid-matte-lipstick-swinger.html' },
   { id: 17, brand: 'MyGlamm', productName: 'Ultimatte Long-Stay Matte Lipstick in Showgirl', hex: '#B8536A', finish: 'Matte', buyLink: 'https://www.myglamm.com/product/ultimatte-long-stay-matte-lipstick-showgirl.html' },
-  { id: 18, brand: 'MyGlamm', productName: 'Pose HD Lipstick in True Red', hex: '#C73434', finish: 'Satin', buyLink: 'https://www.myglamm.com/product/pose-hd-lipstick-true-red.html' },
-  { id: 19, brand: 'MyGlamm', productName: 'K.Play Flavoured Lipstick in Pink Guava Smash', hex: '#D87A8A', finish: 'Creme', buyLink: 'https://www.myglamm.com/product/kplay-flavoured-lipstick-pink-guava-smash.html' },
-  { id: 20, brand: 'MyGlamm', productName: 'Perfect Curves Matte Lip Crayon in Terra', hex: '#B07563', finish: 'Matte', buyLink: 'https://www.myglamm.com/product/perfect-curves-matte-lip-crayon-terra.html' },
+  { id: 18, brand: 'MyGlamm', productName: 'Pose HD Lipstick in True Red', hex: '#C73434', finish: 'Satin', buyLink: 'https://www.myglamm.com/product/myglamm-pose-hd-lipstick-true-red.html' },
+  { id: 19, brand: 'MyGlamm', productName: 'K.Play Flavoured Lipstick in Pink Guava Smash', hex: '#D87A8A', finish: 'Creme', buyLink: 'https://www.myglamm.com/product/k-play-flavoured-lipstick-pink-guava-smash.html' },
+  { id: 20, brand: 'MyGlamm', productName: 'Perfect Curves Matte Lip Crayon in Terra', hex: '#B07563', finish: 'Matte', buyLink: 'https://www.myglamm.com/product/perfect-curves-matte-lip-crayon-terra-brown.html' },
 
   // Nykaa Cosmetics
   { id: 21, brand: 'Nykaa Cosmetics', productName: 'Matte To Last! Liquid Lipstick in Maharani', hex: '#9E2B2F', finish: 'Liquid', buyLink: 'https://www.nykaa.com/nykaa-matte-to-last-liquid-lipstick/p/242250' },
