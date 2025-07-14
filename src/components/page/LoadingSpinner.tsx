@@ -24,10 +24,10 @@ export default function LoadingSpinner({ preview }: LoadingSpinnerProps) {
          <LipstickIcon className="h-full w-full text-primary animate-spin" style={{ animationDuration: '1.5s' }} />
          <div className="absolute inset-0 rounded-full border-4 border-primary/20"></div>
       </div>
-      <h2 className="mt-6 font-headline text-3xl font-bold tracking-tight sm:text-4xl text-accent">
+      <h2 className="mt-6 font-headline text-2xl md:text-3xl font-bold tracking-tight sm:text-4xl text-accent">
         Finding Your Match...
       </h2>
-      <p className="mt-2 text-lg text-muted-foreground">
+      <p className="mt-2 text-md md:text-lg text-muted-foreground">
         Our AI is analyzing the shade. This will only take a moment.
       </p>
     </div>

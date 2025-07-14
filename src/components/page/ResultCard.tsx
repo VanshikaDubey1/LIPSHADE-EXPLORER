@@ -22,7 +22,7 @@ export default function ResultCard({ result, imagePreview, onReset }: ResultCard
   return (
     <div className="max-w-4xl mx-auto animate-in fade-in-0 slide-in-from-bottom-16 duration-700 ease-out">
       <div className="text-center mb-12">
-        <h2 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl text-accent">We Found Your Match!</h2>
+        <h2 className="font-headline text-3xl md:text-5xl font-bold tracking-tight text-accent">We Found Your Match!</h2>
         <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
           Based on your image, here's the lipstick we recommend.
         </p>
@@ -61,7 +61,7 @@ export default function ResultCard({ result, imagePreview, onReset }: ResultCard
           </CardContent>
         </Card>
 
-        <Card className="overflow-hidden shadow-xl shadow-primary/10 w-full border-primary/20 bg-background sticky top-24">
+        <Card className="overflow-hidden shadow-xl shadow-primary/10 w-full border-primary/20 bg-background md:sticky top-24">
           <CardHeader>
             <CardTitle className="font-headline text-2xl">{match.productName}</CardTitle>
             <CardDescription>By {match.brand}</CardDescription>

@@ -98,12 +98,12 @@ export default function ImageUploader({ onUpload, onCameraClick, isLoading }: Im
         
         <div className="relative z-10 flex flex-col items-center">
             <div className="relative mb-4">
-                <UploadCloud className="w-16 h-16 text-primary opacity-60 transition-all duration-300 group-hover:opacity-100" />
+                <UploadCloud className="w-12 h-12 text-primary opacity-60 transition-all duration-300 group-hover:opacity-100" />
                 <span className="absolute inset-0.5 animate-pulse-slow rounded-full border-2 border-primary/50"></span>
             </div>
             
-            <h3 className="text-2xl font-bold text-foreground">Find Your Shade</h3>
-            <p className="mt-2 text-muted-foreground">Upload a photo of lips wearing lipstick, or drag & drop an image.</p>
+            <h3 className="text-xl font-bold text-foreground">Find Match from Image</h3>
+            <p className="mt-1 text-sm text-muted-foreground">Drag & drop or choose a file</p>
             
             <input
                 type="file"
@@ -116,25 +116,25 @@ export default function ImageUploader({ onUpload, onCameraClick, isLoading }: Im
         </div>
       </div>
       
-      <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <div className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-2">
         <Button 
-            size="lg" 
-            className="w-full sm:w-auto rounded-full"
+            size="sm" 
+            className="w-full sm:w-auto"
             onClick={handleButtonClick}
             disabled={isLoading}
         >
             Choose a file
         </Button>
-        <span className="text-muted-foreground font-semibold">OR</span>
+        <span className="text-muted-foreground text-sm">or</span>
          <Button 
-            size="lg" 
+            size="sm" 
             variant="outline"
-            className="w-full sm:w-auto rounded-full"
+            className="w-full sm:w-auto"
             onClick={onCameraClick}
             disabled={isLoading}
         >
-            <Camera className="mr-2 h-5 w-5" />
-            Use Your Camera
+            <Camera className="mr-2 h-4 w-4" />
+            Use Camera
         </Button>
       </div>
     </div>
